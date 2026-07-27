@@ -305,7 +305,9 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
         Preconditions.checkArgument(location.getWorld() != null, "Target world cannot be null");
         Preconditions.checkState(!this.entity.generation, "Cannot teleport entity to an other world during world generation");
         location.checkFinite();
-
+        if (!new io.papermc.paper.event.entity.EntityTeleportHinderedEvent(entity.getBukkitEntity(),
+            io.papermc.paper.event.entity.EntityTeleportHinderedEvent.Reason.IS_VEHICLE, cause).callEvent()) // PartyRealms - Add EntityTeleportHinderedEvent
+            return false;
         return this.teleport0(location, cause, flags);
     }
 
