@@ -1,0 +1,42 @@
+--- a/net/minecraft/world/item/Items.java
++++ b/net/minecraft/world/item/Items.java
+@@ -1239,10 +_,10 @@
+     );
+     public static final Item BUCKET = registerItem(ItemIds.BUCKET, p -> new BucketItem(Fluids.EMPTY, p), new Item.Properties().stacksTo(16));
+     public static final Item WATER_BUCKET = registerItem(
+-        ItemIds.WATER_BUCKET, p -> new BucketItem(Fluids.WATER, p), new Item.Properties().craftRemainder(BUCKET).stacksTo(1)
++        ItemIds.WATER_BUCKET, p -> new BucketItem(Fluids.WATER, p), new Item.Properties().stacksTo(1)
+     );
+     public static final Item LAVA_BUCKET = registerItem(
+-        ItemIds.LAVA_BUCKET, p -> new BucketItem(Fluids.LAVA, p), new Item.Properties().craftRemainder(BUCKET).stacksTo(1)
++        ItemIds.LAVA_BUCKET, p -> new BucketItem(Fluids.LAVA, p), new Item.Properties().stacksTo(1)
+     );
+     public static final Item POWDER_SNOW_BUCKET = registerItem(
+         BlockItemIds.POWDER_SNOW,
+@@ -1253,7 +_,7 @@
+     public static final Item LEATHER = registerItem(ItemIds.LEATHER);
+     public static final Item MILK_BUCKET = registerItem(
+         ItemIds.MILK_BUCKET,
+-        new Item.Properties().craftRemainder(BUCKET).component(DataComponents.CONSUMABLE, Consumables.MILK_BUCKET).usingConvertsTo(BUCKET).stacksTo(1)
++        new Item.Properties().component(DataComponents.CONSUMABLE, Consumables.MILK_BUCKET).usingConvertsTo(BUCKET).stacksTo(1)
+     );
+     public static final Item PUFFERFISH_BUCKET = registerItem(
+         ItemIds.PUFFERFISH_BUCKET,
+@@ -1627,7 +_,7 @@
+     public static final Item BEETROOT_SOUP = registerItem(
+         ItemIds.BEETROOT_SOUP, new Item.Properties().stacksTo(1).food(Foods.BEETROOT_SOUP).usingConvertsTo(BOWL)
+     );
+-    public static final Item DRAGON_BREATH = registerItem(ItemIds.DRAGON_BREATH, new Item.Properties().craftRemainder(GLASS_BOTTLE).rarity(Rarity.UNCOMMON));
++    public static final Item DRAGON_BREATH = registerItem(ItemIds.DRAGON_BREATH, new Item.Properties().rarity(Rarity.UNCOMMON));
+     public static final Item SPLASH_POTION = registerItem(
+         ItemIds.SPLASH_POTION, SplashPotionItem::new, new Item.Properties().stacksTo(1).component(DataComponents.POTION_CONTENTS, PotionContents.EMPTY)
+     );
+@@ -1929,7 +_,7 @@
+     );
+     public static final Item HONEY_BOTTLE = registerItem(
+         ItemIds.HONEY_BOTTLE,
+-        new Item.Properties().craftRemainder(GLASS_BOTTLE).food(Foods.HONEY_BOTTLE, Consumables.HONEY_BOTTLE).usingConvertsTo(GLASS_BOTTLE).stacksTo(16)
++        new Item.Properties().food(Foods.HONEY_BOTTLE, Consumables.HONEY_BOTTLE).usingConvertsTo(GLASS_BOTTLE).stacksTo(16)
+     );
+     public static final Item HONEYCOMB_BLOCK = registerBlock(BlockItemIds.HONEYCOMB_BLOCK, Blocks.HONEYCOMB_BLOCK);
+     public static final Item LODESTONE = registerBlock(BlockItemIds.LODESTONE, Blocks.LODESTONE);
