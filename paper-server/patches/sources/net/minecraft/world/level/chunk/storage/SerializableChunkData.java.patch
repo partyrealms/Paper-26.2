@@ -89,6 +89,15 @@
          chunk.setLightCorrect(this.lightCorrect);
          EnumSet<Heightmap.Types> toPrime = EnumSet.noneOf(Heightmap.Types.class);
  
+@@ -328,7 +_,7 @@
+     }
+ 
+     private static void logErrors(final ChunkPos pos, final int sectionY, final String message) {
+-        LOGGER.error("Recoverable errors when loading section [{}, {}, {}]: {}", pos.x(), sectionY, pos.z(), message);
++        // LOGGER.error("Recoverable errors when loading section [{}, {}, {}]: {}", pos.x(), sectionY, pos.z(), message);
+     }
+ 
+     public static SerializableChunkData copyOf(final ServerLevel level, final ChunkAccess chunk) {
 @@ -388,6 +_,12 @@
              .map(shorts -> shorts != null && !shorts.isEmpty() ? new ShortArrayList(shorts) : null)
              .toArray(ShortList[]::new);
