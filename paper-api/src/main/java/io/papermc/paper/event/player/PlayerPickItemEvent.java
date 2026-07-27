@@ -5,7 +5,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.player.PlayerEvent;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Range;
 import org.jspecify.annotations.NullMarked;
 
@@ -31,12 +33,15 @@ public abstract class PlayerPickItemEvent extends PlayerEvent implements Cancell
 
     private boolean cancelled;
 
+    private ItemStack replacementItem; // PartyRealms - Allow changing item in PlayerPickEvent
+
     @ApiStatus.Internal
-    protected PlayerPickItemEvent(final Player player, final boolean includeData, final int targetSlot, final int sourceSlot) {
+    protected PlayerPickItemEvent(final Player player, final boolean includeData, final int targetSlot, final int sourceSlot, final ItemStack replacementItem) {
         super(player);
         this.includeData = includeData;
         this.targetSlot = targetSlot;
         this.sourceSlot = sourceSlot;
+        this.replacementItem = replacementItem;
     }
 
     /**
@@ -90,7 +95,15 @@ public abstract class PlayerPickItemEvent extends PlayerEvent implements Cancell
         Preconditions.checkArgument(sourceSlot >= -1 && sourceSlot <= 35, "Source slot must be in range of the player's inventory slot, or -1");
         this.sourceSlot = sourceSlot;
     }
+    // PartyRealms start - Allow changing item in PlayerPickEvent
+    public @Nullable ItemStack getReplacementItem() {
+        return this.replacementItem.clone();
+    }
 
+    public @Nullable ItemStack setReplacementItem(ItemStack itemStack) {
+        return this.replacementItem = itemStack;
+    }
+    // PartyRealms end - Allow changing item in PlayerPickEvent
     @Override
     public boolean isCancelled() {
         return this.cancelled;
