@@ -6,6 +6,7 @@ import io.papermc.paper.datacomponent.DataComponentHolder;
 import io.papermc.paper.registry.RegistryKey;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import net.kyori.adventure.text.Component;
@@ -21,6 +22,7 @@ import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
 import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -34,6 +36,7 @@ import org.jetbrains.annotations.Nullable;
 public class ItemStack implements Cloneable, ConfigurationSerializable, Translatable, net.kyori.adventure.text.event.HoverEventSource<net.kyori.adventure.text.event.HoverEvent.ShowItem>, net.kyori.adventure.translation.Translatable, io.papermc.paper.persistence.PersistentDataViewHolder, DataComponentHolder { // Paper
     private ItemStack craftDelegate; // Paper - always delegate to server-backed stack
     private MaterialData data = null;
+    NamespacedKey key = NamespacedKey.fromString("partyrealms:item_key"); // PartyRealms - Include custom item key in isSimilar
 
     // Paper start - add static factory methods
     /**
@@ -354,7 +357,19 @@ public class ItemStack implements Cloneable, ConfigurationSerializable, Translat
      * @return true if the two stacks are equal, ignoring the amount
      */
     public boolean isSimilar(@Nullable ItemStack stack) {
-        return this.craftDelegate.isSimilar(stack); // Paper - delegate
+        // PartyRealms start - Include custom key in isSimilar
+        if (craftDelegate.hasItemMeta() && craftDelegate.getItemMeta().getPersistentDataContainer().has(key)) {
+            if (stack == null || !stack.hasItemMeta() || !stack.getItemMeta().getPersistentDataContainer().has(key)) {
+                return false;
+            }
+            return Objects.equals(
+                craftDelegate.getItemMeta().getPersistentDataContainer().get(key, PersistentDataType.STRING),
+                stack.getItemMeta().getPersistentDataContainer().get(key, PersistentDataType.STRING)
+            );
+        } else {
+            // PartyRealms end - Include custom key in isSimilar
+            return this.craftDelegate.isSimilar(stack); // Paper - delegate
+        }
     }
 
     @NotNull
