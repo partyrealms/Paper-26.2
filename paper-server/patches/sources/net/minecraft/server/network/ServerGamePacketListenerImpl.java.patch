@@ -537,7 +537,7 @@
              }
  
              if (packet.includeData() && this.player.canUseGameMasterBlocks() && entity instanceof Avatar avatar) {
-@@ -746,22 +_,35 @@
+@@ -746,22 +_,36 @@
          }
      }
  
@@ -550,9 +550,10 @@
 +            final int sourceSlot = slotWithExistingItem;
 +            final int targetSlot = Inventory.isHotbarSlot(sourceSlot) ? sourceSlot : inventory.getSuitableHotbarSlot();
 +            final org.bukkit.entity.Player bukkitPlayer = this.player.getBukkitEntity();
++            // PartyRealms start - Allow changing item in PlayerPickEvent
 +            final io.papermc.paper.event.player.PlayerPickItemEvent event = entity != null
-+                ? new io.papermc.paper.event.player.PlayerPickEntityEvent(bukkitPlayer, entity.getBukkitEntity(), includeData, targetSlot, sourceSlot)
-+                : new io.papermc.paper.event.player.PlayerPickBlockEvent(bukkitPlayer, org.bukkit.craftbukkit.block.CraftBlock.at(this.player.level(), blockPos), includeData, targetSlot, sourceSlot);
++                ? new io.papermc.paper.event.player.PlayerPickEntityEvent(bukkitPlayer, entity.getBukkitEntity(), includeData, targetSlot, sourceSlot, itemStack.getBukkitStack())
++                : new io.papermc.paper.event.player.PlayerPickBlockEvent(bukkitPlayer, org.bukkit.craftbukkit.block.CraftBlock.at(this.player.level(), blockPos), includeData, targetSlot, sourceSlot, itemStack.getBukkitStack());
 +            if (!event.callEvent()) {
 +                return;
 +            }
@@ -569,7 +570,7 @@
                  }
              } else if (this.player.hasInfiniteMaterials()) {
 -                inventory.addAndPickItem(itemStack);
-+                inventory.addAndPickItem(itemStack, event.getTargetSlot()); // Paper - Add PlayerPickItemEvent
++                inventory.addAndPickItem(CraftItemStack.asNMSCopy(event.getReplacementItem()), event.getTargetSlot()); // Paper - Add PlayerPickItemEvent // PartyRealms - Allow changing item in PlayerPickEvent
              }
  
              this.send(new ClientboundSetHeldSlotPacket(inventory.getSelectedSlot()));
